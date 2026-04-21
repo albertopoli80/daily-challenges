@@ -1,0 +1,36 @@
+# IntelliJ / Android Studio files
+.idea/
+*.iml
+*.iws
+out/
+gen/
+externalLibraries/
+/shelf/
+/workspace.xml
+
+# Android / Gradle specific
+.gradle/
+build/
+local.properties
+.externalNativeBuild/
+.cxx/
+captures/
+*.apk
+*.ap_
+*.dex
+*.class
+
+# Device / Emulator specific
+devicestreaming.xml
+captures/
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Log files
+*.log
+
+# Sensitive info
+secrets.properties
+google-services.json
