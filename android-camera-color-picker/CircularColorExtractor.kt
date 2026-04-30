@@ -47,7 +47,7 @@ object CircularColorExtractor {
             if (y < 0 || y >= image.height) continue
 
             val dy = y - centerY
-            val xHalfWidth = sqrt((radius * radius - dy * dy).toDouble()).toInt()
+            val xHalfWidth = sqrt((radius * radius - dy * dy).toDouble()).toInt() //Circle in a Square box
 
             for (x in (centerX - xHalfWidth)..(centerX + xHalfWidth)) {
                 if (x < 0 || x >= image.width) continue

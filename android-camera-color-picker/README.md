@@ -10,12 +10,26 @@ When building a real-time color picker, many developers make the mistake of:
 
 This causes massive memory allocations and high CPU/GPU usage, leading to thermal throttling and low FPS.
 
-## Our Optimized Solution: "Direct Sampling"
-Our `CircularColorExtractor` is designed for speed:
+##  Optimized Solution: "Direct Sampling"
+ `CircularColorExtractor` is designed for speed:
 1. **Geometric Pruning**: We don't iterate over the entire image. We only process pixels within the bounding box of the circle.
 2. **Pythagorean Skip**: For every row, we calculate the exact `x` range using `sqrt(r^2 - dy^2)`. This ensures we only touch pixels that are actually inside the circle.
 3. **Direct YUV-to-RGB**: We read the raw Y, U, and V bytes directly from the hardware buffers and perform the math on-the-fly for only the sampled pixels.
 4. **Zero Allocations**: No Bitmaps or temporary objects are created during the extraction process, making it perfectly safe for 60FPS loops.
+
+## Mathematical Optimization: Scanline Geometric Pruning
+
+Instead of the "naive" approach (iterating over a square and testing every pixel's distance to the center), we use the mathematical formula for a circle to calculate the exact scanline boundaries:
+
+$$(x - x_c)^2 + (y - y_c)^2 = r^2$$
+
+For every row $y$ in the bounding box, we solve for $x$:
+$$x = x_c \pm \sqrt{r^2 - (y - y_c)^2}$$
+
+### Why this is faster:
+1. **~21% Fewer Pixels Processed**: We only read pixels inside the circle area ($\pi r^2$) instead of the full bounding square ($4r^2$).
+2. **No Conditional Branching**: We don't need `if (distance < radius)` inside the inner loop. The loop itself is already bounded to valid pixels, preventing CPU branch mispredictions.
+3. **Cache Efficiency**: Data is accessed row by row, which matches the linear memory layout of the camera buffers.
 
 ## How to use
 Pass the `android.media.Image` from your `ImageAnalysis.Analyzer` (CameraX) or `onImageAvailable` (Camera2) callback to the `extractAverageColor` function.

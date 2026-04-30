@@ -4,7 +4,7 @@ import com.fazecast.jSerialComm.SerialPort
 import com.fazecast.jSerialComm.SerialPortDataListener
 import com.fazecast.jSerialComm.SerialPortEvent
 import com.example.serial.interfaces.ConnectionListener
-import com.example.serial.interfaces.PosConnection
+import com.example.serial.interfaces.SerialDeviceConnection
 import kotlinx.coroutines.*
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -24,7 +24,7 @@ class JSerialCommConnection(
     private val dataBits: Int,
     private val stopBits: Int,
     private val parity: Int
-) : PosConnection, SerialPortDataListener {
+) : SerialDeviceConnection, SerialPortDataListener {
 
     private var serialPort: SerialPort? = null
     private var listener: ConnectionListener? = null

@@ -1,6 +1,6 @@
 # Resilient Serial Communication with Coroutine Watchdog
 
-This challenge implements a production-grade serial communication handler using `jSerialComm` and Kotlin Coroutines. It's designed for environments where hardware stability cannot be guaranteed (e.g., POS terminals, industrial sensors).
+This challenge implements a production-grade serial communication handler using `jSerialComm` and Kotlin Coroutines. It's designed for environments where hardware stability cannot be guaranteed (e.g., Serial Android Devices, industrial sensors).
 
 ## Key Features
 
